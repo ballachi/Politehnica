@@ -1,0 +1,57 @@
+/*Bulachi Marin - 311CB*/
+TEMA 1
+	Citesc argumentele si le scriu in alte variabile
+	deschidem fisieru input
+	deschidem fisieru ouput
+	aloc tebela hash
+
+	creez un while care sa-mi citeasca din fisier pina EOF, sirul citit va fi comparat in continuare
+	
+	daca sirul citit e "set"
+		calculam  numarul de elemente din tabela hash
+		daca numar de elemente  e mare ca M*2 
+			creem o tabela hash2
+			punem in tabela hash2 valorile din tabela hash 
+				"se va parcurge tabelu hash si va apela functia set  pe tabelul hash2 cu info din tabelu hash"
+
+			M = M*2
+			stergem tabela hash
+			o alocam cu M 
+			punem in tabela hash valorile din tabela hash2	
+			stergem table hash2
+				"se va parcurge tabelul hash2 si se va apela funtia  Distruge  care va distruce lista ,apoi distrug tabelul hash
+
+		punem valorile intro noua celula 
+
+			"apelam functia set care calculeaza indexul tabelului hash,numara  celulele din hash[index] daca e mai mare ca M 
+			 sterg ultimu elemen cu functia stergeultima ,dupa fac inserarea la sfirsit 
+			 cu functia InsLDG,apoi ordonez lista". 
+				
+
+	daca sirul citit e "get"
+		apelam functia get care ne va intoarce un ip-ul daca key exista 
+			"functia get calculez backend-ul ,parcurge lista pina gaseste celula,dupa ce o gaseste  returneaza ip-ul,apoi o ordoneaza
+		daca nu ne intoarce NULL
+
+		
+
+	daca sirul citit e "print"
+		apelez functia printHashMap care imi printeaza tot tabelu hash 
+			"functia printHashMap parcure tabela hash , si la fiecare index apeleaza functia Afisare care imi afiseaza lista"
+	
+	daca sirul citit e "print_list" 
+		apelez functia Afisareindex care imi va afisa toata lista cu indexul dat
+	daca sirul citit e "remove"
+		apelez functia remove care imi sterge elementul dat dupa "key"
+			
+
+
+
+pe testul local imi da punctajul 85/85;
+VALGRIND 0;
+
+
+
+
+
+
