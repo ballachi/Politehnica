@@ -1,0 +1,6 @@
+string a = "ana are mere";
+int b = 5;
+int c = -30;
+int d = 5;
+double e = 0.4;
+eval ( a - b ) + ( a + c ) + ( a - c ) + ( ( b + c - b * e + ( b - d ) - c * ( d - b ) ) ) / ( e * b - b * e ) + ( a / b / ( b - b ) );
