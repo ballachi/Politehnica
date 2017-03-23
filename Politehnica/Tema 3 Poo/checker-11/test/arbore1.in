@@ -1,0 +1,6 @@
+int a = 1;
+int b = 2;
+int c = 7;
+int d = 50;
+int e = 100;
+eval ( a + b ) - c * b / ( d / e + b );

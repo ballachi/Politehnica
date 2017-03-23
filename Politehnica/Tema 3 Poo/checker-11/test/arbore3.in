@@ -1,0 +1,7 @@
+int a = 1;
+int b = 2;
+double c = 7.1;
+int d = 3;
+string e = "abcd";
+int f = 10;
+eval ( a + b ) - e * c / ( d / e + b + d * ( e * d * d * b * b * b - f * d + f - b * d * ( a + b - d / ( b * b + c ) ) ) );
