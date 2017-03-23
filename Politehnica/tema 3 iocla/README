@@ -1,0 +1,22 @@
+Primu apel se face catre functia login();
+	In functia login
+	am observat  if(name[0] != 0x4e || name[1] != 0x4f || name[2] != 0x50)
+	am convertit in asci si mi-a dat NOP am  pus "000" + "\0" deoarece lungimiea numelui este 7
+	Pentru parola am facut xor  stored_pass^key = "IDA_1z_y0ur_fr1end" 
+	char stored_pass[18] = {0x78, 0x74, 0x2, 0x13, 0x70, 0x1, 0x8, 0x4a, 0x6f, 0x19, 0x42, 0x29, 0x55, 0x2d, 0x59, 0x56, 0x16, 0x19};
+	char key[18] = {0x31, 0x30, 0x43, 0x4c, 0x41, 0x7b, 0x57, 0x33, 0x5f, 0x6c, 0x30, 0x76, 0x33, 0x5f, 0x68, 0x33, 0x78, 0x7d};
+	
+Dupa se apleaza functia play();
+	aici se apleaza functia gets care ne permite sa facem Buffer overflow
+	in fuctia play se gasete parot care se verifica dupa gets de aceea am suprascris toate variabilele cu A m-ai putin pe parrot care am suprascriso cu 193 
+	Offsetul este 29
+	dupa am scris adresa secret_fun1
+	
+	pentru secret_fun2 am facut la fel + dupa adresa un zero apoi am pus parametrii
+	
+	pentru fopen
+			const char * prenume = "I am not Marin";
+			printf("%x\n",prenume+9);
+			const char * tahw_ni_hsilgne_kaeps_yeht_od = "?tahw"; // I wonder if this can be useful in any way...
+			printf("%x\n",tahw_ni_hsilgne_kaeps_yeht_od+4);
+			am pus adresele respective

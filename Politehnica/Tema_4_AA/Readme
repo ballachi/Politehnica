@@ -1,0 +1,18 @@
+Tema4 
+
+Salvez toat muchiile into lista
+in metoda Transformare
+	imi creez nrNod*k variabile
+
+	Pentru fiecare K fac clauze (~vi V ~vj) unde 1 <= i < j <= Numaru de noduri si fac ^ intre ele
+		unde v este Nod
+
+	Pentru fiecare perechi de muchii fac clauze (Xv1 V Xu1 ...Xvi V Xui ...Xvk V Xuk )
+		unde v si u sunt nodurile care au muchie intre ele
+
+	le concatinez si pun ^ intre ele
+
+
+Transformarea am gasito pe site-ul
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.32.3730&rep=rep1&type=pdf
+4.2.1

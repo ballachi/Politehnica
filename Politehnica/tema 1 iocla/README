@@ -1,0 +1,31 @@
+EX1
+Creez o structura in care am variabila nr in care se va afla raspunsul , dimensiunea ei este de 32 bit ,o initializez cu 0
+Am creat un string in caz ca baza incorecta , 
+
+La inceput ma asigur ca toti registri sunt 0
+Verific daca baza data se afla in intervalul dat (2-16)
+Veific baza e in intervalul dat cu ajutorul cmp fac scaderea baza-2 pentru a vedea daca e mai mica ca 2 ,
+	daca e mai mica atunci numaru e negativ si fac  js(jamp daca e cu semn)  la labelul baza_incorecta 
+Veific daca baza e in intervalul dat cu ajutorul cmp fac scaderea 16-baza pentru a vedea daca e mai mare ca 16 
+	daca e mai mare atunci numaru e negativ si fac  js(jamp daca e cu semn)  la labelul baza_incorecta
+	labelul baza_incorecta afiseaza mesajul 'Baza incorecta'
+
+
+Numar de cite ori se imparte numaru la baza
+Pun numarul in registru eax ,si baza in ebx
+Fac impartirea , voi avea in registru eax citul ,iar in edx restul
+In ecx numar cite ori a fost impartit numaru la baza
+Repet pina cind eax e 0;
+
+
+Pun numarul in registru eax ,si baza in ebx
+	Fac impartirea , voi avea in registru eax citul ,iar in edx restul
+	compar edx(restul) cu 10 pentru a vedea daca se afla numar sau litera
+	in caz edx e mai mic ca 10 ma duc la labelul "cifra" fac adunarea numarului cu 48 pentru a obtine echivalentul din asci
+	in caz edx e mai mare ca 10 ma duc la labelul "litera" fac adunarea numarului cu 87 pentru a obtine caracterul necesar  din asci   ex(10+87=97='a')
+	ma intorc 
+	pun restul in  nr in care se va afla raspunsul de la sfirsit la inceput cu ajutorul ecx in care stiu cite ori a fost inpartin numaru pin a fi 0
+	decrementez ecx
+	Repeta cit timp eax(numaru)!=0
+
+	Afisez numaru
