@@ -1,0 +1,5 @@
+Pentru a face aceasta aplicatie am folosit o baza de date.
+Cautarea prin date se face cu cereri selec.
+Aplicatia asteapta de la tastatura o comanda;
+Ruleaza pana cand nu va primi comanda exit.
+Am folosit o baza de date deoarece este foarte rapid si mult mai usor pentru a selecta datele necesare.
