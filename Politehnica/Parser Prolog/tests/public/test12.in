@@ -1,0 +1,4 @@
+a = 10;
+assert (a == 8);
+a2 = a*a2;
+return a2;

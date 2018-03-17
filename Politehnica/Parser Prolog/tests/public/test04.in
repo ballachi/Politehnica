@@ -1,0 +1,9 @@
+x = 10;
+y = x + x*2;
+z = y + y + y*0 + 3;
+assert (x == 10);
+assert (x < 15);
+assert (y == y);
+assert (z == 63);
+assert (z+3 == 6+x+x*2+3*x);
+return 25-y+8;

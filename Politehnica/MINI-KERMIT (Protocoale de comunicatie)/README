@@ -1,0 +1,58 @@
+ksender.c
+	Creez primul pachet cu cimpul data "Send_init" cu functia write_send_init care il scrie in t.payload
+		Creez Pachetul cu "F" si scriu in data numele fisierului 
+			Creez Pachete cu "D" si scriu in data ce citesc din fisier pina cind numai am de citit
+		Creez Pachetul cu "Z" si data==null
+		daca mai am fisiere ma intorc si incep de la pachetul "F" pentru urmatorul fisier
+	Creez Pachetul cu "B" si data==null  
+
+	pt toate pachetele
+		se verifaca daca sau pierdut pachetul de 3 ori atunci es din program
+		se verifaca daca am primit NAK atunci se incrementeaza seq si se retransmite
+		daca am primit ACK se inpacheteaza pachetul in payload si se transmite si se incrementeaza seq
+
+	Nu verific ACK/NAK din cauza ca ni se garanteaza ca pachetele nu se pierd si nu se corup
+
+
+
+kreceiver.c 
+	Intr-o bucla
+		primesc pachetul 
+		extrag din pachet primele 4 cimpuri
+		extrag CHECK care se afla la payload + k.len + 4(patru cimpuri initiale) 
+		suprascriu cele 2 cimpuri dupa data cu zero (pentru a verifica msg)
+		aflu  msg cu crc16_ccitt
+		verif daca sunt egale 
+		daca sunt egale 
+			verific tipul 
+			daca e tipul "F"
+				creez fisierul cu recv_ + data
+			daca e tipul "D"
+				scriu in fisier 
+			daca e tipul "S" 
+				salvez intro Send_init 
+				si actualizez cimpul TIME
+			daca e tipul  "Z" 
+				inchid fisierul
+			Daca e tipul "B"
+				es din bucla
+
+			pt fiecare pachet transmit ACK (pachetul Y) cu cimpul data==null mai putin "S" 
+			pt pachetul "S" transmit in cimpul data Send_init
+		in caz ca mesaju a fost corupt
+			transmit NAK(pachetul N)
+
+		in caz ca na venit in TIME de 3 ori inchid programul
+
+		functia care inpacheteaza pachetul se numeste write_msg
+
+
+functia write_msg scrie orice pachet in payload si actualizeaza t.len
+
+functia write_send_init initializeaza o structura cu cimpurile respective si apleaza functia 
+	write_msg(t, 'S', buf, sizeof (Send_Init), 0);
+	0 e seq;
+	
+
+
+

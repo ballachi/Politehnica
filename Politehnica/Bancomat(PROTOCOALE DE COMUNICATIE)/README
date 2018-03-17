@@ -1,0 +1,131 @@
+
+Server
+	In server deschid 2 socketi unu de tip TCP si unu de tip UDP
+	Citesc din fisier si scriu intr-o structura Client
+	Adaug socketii UDP, 0(stdin) si TCP in multimea de citire folosita in select
+	Verific daca a venit ceva pe socketul i din multimea de citire folosita in selec
+		Daca i == socketul TCP 
+			a venit ceva pe socketul inactiv(cel cu listen) = o noua conexiune
+			adaug noul socket intors de accept() la multimea descriptorilor de citire
+		Daca i == 0 
+			a venit ceva pe socketul 0 (stdin)
+			verific daca e quit (la server se poate da doar comanda quit de la tastatura)
+				transmit un mesaj cu quit pt fiecare client si inchid socketul
+				scoatem din multimea de citire socketul
+		Daca i == socketul UDP
+			a venit un mesaj prin socketul UDP
+			cer mesajul cu recvfrom
+			verific daca ese unlock(se poate da doar comanda unlock , unlock2 prin socketul UDP)
+				extrag din buffer numarul cardului 
+				apelez functia unlock
+		Altfel a venit un mesaj prin socketul tcp
+			cer mesajul cu recv
+			Se va verifica primul cuvint din mesaj si se va apela functia respectiva
+			Pt fiecare functie se va extrage parametrii necesari cu sscanf din buffer
+			Exceptie face quit
+				Se verifica daca nu este conectat
+				inchidem socketul
+				scoatem din multimea de citire socketul
+	In caz de se inchide un termial fortat cu ctrl-c voi verifica daca este logat 
+		daca este logat, apelez functia logout
+
+
+Functiile din Server
+	"read_file" - Citirea din fisier
+	"send_tcp" - Transmite un mesaj prin TCP si verifica daca a fost transmis cu succes
+	"send_udp" - Transmite un mesaj prin UDP si verifica daca a fost transmis cu succes
+	"cod_eroare" - Transmite un mesaj de eroare prin TCP
+	"login" - Functia login primeste ca parametru clientii, numar_card si
+				socketul pe care se face conexiunea
+				Caut in toti clientii numarul cardului -- Daca nu a fost gasit cod eroare -4
+				Apoi verific daca nu este blocat   -- Daca este blocat cod eroare -5
+				Apoi verific daca nu este cineva conectat la acest card -- else cod eroare -2
+				Apoi verific pinul -- Daca pinul a fost gresit a 3 oara cod eroare -5 else  cod eroare -3
+		Pentru a bloca un card am 2 campuri in structura Client pin_gresit , blocat ;
+			in pin_gresit voi numara de cite ori a fost gresit pinul
+				pin_gresit se incrementeaza daca a fost gresit pinul unui card(nu neaparat consecutiv sau in acceasi sesiune)
+			daca pinul a fost gresit de 3 ori se blocheaza cardul (blocat = 1)
+		un exemplu de login se gaseste mai jos 
+
+	"logout" -  Functia logout primeste Clientii si socketul pe care se face conexiunea
+				Se verifica la ce client este conectat socketul
+				apoi urmeaza deconectare de la bancomat
+					se schimba campul socket din structura Client (socket == -1)
+					campul socket va pastra socketul care este conectat la client
+
+	"listsold" - Functia listsold primeste Clientii si socketul pe care se face conexiunea
+					Se verifica la ce client este conectat socketul
+					Apoi se transmite un mesaj catre client cu sold-ul sau
+
+	"getmoney" - Functia getmoney primeste Clientii, suma si socketul pe care se face conexiunea
+					Se verifica la ce client este conectat socketul 
+					Apoi se verifica daca suma este multiplu de 10 --  else eroare -9 
+					Apoi se verifica daca suma care se doreste nu depaseste suma detinuta de client -- else eroare -8
+					Se scade suma si se transmite raspuns
+
+	"putmoney" - Functia putmoney primeste Clientii, suma si socketul pe care se face conexiunea
+					Se verifica la ce client este conectat socketul
+					Se adauga suma si se transmite raspuns
+
+	"unlock" - Functia unlock primeste Clientii , numarul cardului si
+				socketul pe care se face conexiunea
+				Verifica daca numarul cardului == cu un numar de card din vectoru de clienti -- else eroare -4
+					Verifica daca cardul e blocat -- else eroare -6
+						Daca nu e blocat transmit un mesaj
+		toate mesajele se transmit pe udp
+			(functia nu va astepta parola deoarece daca as face sa astepte parola in functie alti clieti vor fi
+			nevoiti sa astepte pina cind stocketul va raspunde cu o parola)
+
+	"unlock2" - Functia unlock2 primeste Clientii , numarul cardului. parola_secret si
+				socketul pe care se face conexiunea 
+				Verifica daca numarul cardului == cu numar de card din toti clientii
+				verif daca parola corespunde 
+				daca corespunde pin_gresit va fi setat pe zero si se va transmite mesaj Client deblocat
+				daca nu corespunde intorc eroare -7
+
+
+
+Client
+	In client deschid 2 socketi unu de tip TCP si unu de tip UDP
+	Citesc din fisier si scriu intr-o structura Client
+	Adaug socketii UDP, 0(stdin) si TCP in multimea de citire folosita in select
+	Verific daca a venit ceva pe socketul i din multimea de citire folosita in selec
+		Daca i == 0 
+			a venit ceva pe socketul 0 (stdin)
+			citesc de la tastatura
+			daca sunt conectat si primesc comezile unlock sau login -> eroare -2 si nu mai transmit la server
+			daca  nu sunt conectat si scriu o comanda diferita de login si unlock -> eroare -1 si nu mai transmit la server
+			daca primesc comanda quit transmit mesaj serverului, inchid socket-urile si inchid clientul
+			daca primesc comanda unlock transmit comanda cu sendto si astept raspunsul
+				daca am primit mesajul "UNLOCK> Trimite parola secreta" citesc de la tastatura si transmit parola secreta
+				astept confirmarea 
+			daca primesc comanda login salvez numarul de card
+		else  am primit date pe unul din socketii
+			daca mesajul primit este welcome salvez ca clientul este logat
+			daca mesajul primit este Deconectare salvez ca clientul este deconectat
+			daca mesajul primit este quit scoatem din multimea de citire socketul tot , si es din toti socketii, inchid programul
+
+exemplu de login 		
+1) exemplu in acceasi sesiune
+			login 456123 9999
+			ATM> -3 : Pin gresit
+			login 111111 233
+			ATM> -3 : Pin gresit
+			login 456123 9999
+			ATM> -3 : Pin gresit
+			login 123413 132
+			ATM> -4 : Numar card inexistent
+			login 456123 9999
+			ATM> -5 : Card blocat
+
+2) exemplu in sesiuni diferite
+			1)sesiunea 1
+			login 456123 9999
+			ATM> -3 : Pin gresit
+			login 111111 233
+			ATM> -3 : Pin gresit
+			login 456123 9999
+			ATM> -3 : Pin gresit
+			2)sesiune 2
+			login 456123 9999
+			ATM> -5 : Card blocat

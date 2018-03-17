@@ -1,0 +1,4 @@
+produs = 15;
+suma = 13;
+if (suma + 2 == produs) then {return produs * produs + suma * suma;}
+else {d = produs - suma + 5;}

@@ -1,0 +1,24 @@
+
+Cand primeste un mesaj pe un soket.
+	Din mesajul primit extrag host-ul(numele site-ului).
+	Apelez functia getIP care primeste hostul si intoarce adresa ip.
+	Fac conexiunea cu serverul.
+	Verific daca din numele site-ului + token exista un fisier
+		daca exista 
+			citesc din fisier si transmit clientului
+		daca nu exista
+			Trimit mesajul print TCP
+			Astept raspunsul de la server
+            Scriu in fisier
+            Transmit clientului
+    Inchid conexiunea cu serverul si clientul.
+
+
+Cache :  
+	Salvez pt fiecare comanda primite de la clienti intrun fisier cu numele site-ului + token.
+
+Teste :
+	Am obtinut 90/90 pe checker.
+	Am tratat cazul in care inainte de rulare a checker-ului  nu exista fisiere cache in directorul curent.
+	In makefile exista comanda clean care sterge executabilul creat si fisierele cache.
+

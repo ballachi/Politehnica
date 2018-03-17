@@ -1,0 +1,7 @@
+a = 3;
+b = 4;
+c = 5;
+assert (c*c == a*a + b*b);
+assert (a*a < c*c + b*b);
+assert (a+1 == b);
+return c*c;

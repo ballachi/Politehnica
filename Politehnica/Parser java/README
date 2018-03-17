@@ -1,0 +1,21 @@
+Bulachi Marin 321 CB
+
+Am testat tema pe Testele "greedy"
+
+Dupa citirea textului Se creaza un decorator care decoreaza clasa Evaluate 
+	
+	Pentru parsarea textului am folosit Decoratorul care trece prin tot codul si il in parte in programe
+	Pentru fiecare program se creeaza un obiec  de tipul respectiv si se adauga in lista
+
+Dupa clasa Evaluate apeleaza accept pt fiecare obiect  din  lista
+
+Vizitorul va evalua fiecare obiect cu metoda respectiva la run-time
+in vizitor am adaugat  o metoda care evalueaza expresiile(recursiv)
+
+
+Mai sunt doua clase Error si Variables care sunt te tip Singleton
+	Eroare
+		Se va seta eroarea in caz de a aparut
+
+	Variables 
+		Va pastra toate variabilele definite pe parcursul programului intrun HashMap

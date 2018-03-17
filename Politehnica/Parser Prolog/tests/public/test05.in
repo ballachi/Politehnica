@@ -1,0 +1,6 @@
+a = 10;
+b = 20;
+if (a + b < 30) then {c = a-b;}
+else 
+{c = 10*a+b;}
+return c;

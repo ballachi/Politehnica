@@ -1,0 +1,14 @@
+x = 27;
+max = x;
+for (i = 0; 1 < x; i = i + 1)
+{
+    d = 0;
+    for (r = x; 1 < r; r = r-2)
+        {d = d + 1;}
+    if (r == 1) then {x = 3*x+1;}
+    else {x = d;}
+    if (max < x) then {max = x;}
+    else {max = max;}
+}
+assert (9000 < max);
+return max;

@@ -1,0 +1,28 @@
+Pentru retinerea variabilelor am facut o lista.
+Pentru evaluarea expresilor.
+	Extrag expresia.
+	Inlocuesc toate aparitiile variabilelor cu valoarea sa.
+	Fac operatia de inmultire , din lista care a ramas fac operatia de scadere.
+	Dupa ce a ramas o lista cu operatia de adunare, fac adunarea pe toata lista si returnez suma.
+Pentru evaluarea programului
+	Verif ce tip de program este(pattern matching)
+		daca este assign('=') atunci aduag in lista de variabile variabila din partea stanga a '=' cu expresia din partea dreapta evaluata.
+
+		daca este return, unific raspunsul cu expresia evaluata.
+
+		daca este assert, extrag expresia din partea stinga si o evaluez,extrag expresia din partea dreapta si o evaluez
+							verif de erori,daca este adevarata evaluez programul ramas.
+							daca este falsa evaluez programul ramas verif daca a fost eroare,
+											daca a fost eroare unific R cu 'e'
+											daca nu a fost eroare unific R cu 'a'
+
+		daca este for, extrag initializarea, o evaluez, apoi extrag conditia , asignarea , programul.
+						evaluez programul cat timp conditia este adevarata.
+						evaluez programul ramas.
+
+		daca este if extrag expresia din partea stinga si o evaluez,extrag expresia din partea dreapta si o evaluez
+						verif de erori,daca este adevarata evaluez programul din if, daca este fals evaluez programul din else.
+						evaluez programul ramas.
+
+Pe local mi-a trecut toate testele.
+Nu am facut verificarea in for de erori, sar putea sa ruleze la infinit daca in for va fi eroare.

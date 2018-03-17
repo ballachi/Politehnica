@@ -1,0 +1,5 @@
+a = 5;
+b = 25;
+for (i = 0; i < b ; i = i + 1)
+{c = c + i*a;}
+return c;
