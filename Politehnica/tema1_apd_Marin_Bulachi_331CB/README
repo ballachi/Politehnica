@@ -1,0 +1,41 @@
+Pentru a muta un sarpe voi muta capul si voi sterge coada.
+
+La inceput imi creez un vector in care salvez pozitia cozilor pentru fiecare sarpe
+	pentru aceasta parcurg tot sarpele
+Am paralelizat for-ul care parcurge numarul de serpi care face cautarea cozii
+
+for-ul pentru runde {
+	initializez numarul de thread-uri{
+		paralelizez for-ul care parcurge numarul de serpi
+ 		Mut coada
+ 			mut prima coada pentru a evita coliziunele
+ 				exemplu
+ 					s-ar muta capul unui sarpe care se va lovi cu coada unui sarpe care nu a fost mutata la pasul k.
+ 			in cazul meu mut initial toate cozile dupa ce sa mutat toate cozile voi muta 
+ 					si caput pentru fiecare sarpe
+
+ 		paralelizez for-ul care parcurge numarul de serpi
+ 		Mut capul
+ 			verific si de coliziune 
+ 			in caz de a fost coliziune setez o variabila pe true
+ 	}
+
+ 	verific de coleziune(daca variabila de coleziune a fost setata true)
+ 		refac matricea
+}
+
+Tema a fost testata local pe un Macbook pro cu 8 thread-uri
+Testul big_input cu 20000 runde
+
+	OMP_NUM_THREADS = 1 timpul intre 1.425397000 si 1.457396000 secunde
+	OMP_NUM_THREADS = 2 timpul intre 1.347817000 si 1.370770000 secunde
+	OMP_NUM_THREADS = 3 timpul intre 1.303701000 si 1.324171000 secunde
+	OMP_NUM_THREADS = 4 timpul intre 1.351490000 si 1.367716000 secunde
+	OMP_NUM_THREADS = 5 timpul intre 1.676770000 si 1.696161000 secunde
+	OMP_NUM_THREADS = 6 timpul intre 2.041465000 si 2.093492000 secunde
+	OMP_NUM_THREADS = 7 timpul intre 2.315663000 si 2.339442000 secunde
+	OMP_NUM_THREADS = 8 timpul intre 2.573289000 si 2.606709000 secunde
+
+Cel mai bun timp a fost pentru 3 thread-uri si cel mai rau timp pentru 8 thread-uri
+Se intampla acest lucru din cauza ca numarul de serpi(3000) este mic pentru a se vedea scalabilitate pe un numar de thread-uri mai mare ca 3. Deoarece pentru initializarea thread-urilor se pierdea prea mult timp la fiecare pas.
+Pentru a se vedea o scalabilitate buna e nevoie de un test cu mai multi serpi deoarece eu am paralelizat numarul serpilor.

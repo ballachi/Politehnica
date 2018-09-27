@@ -1,0 +1,114 @@
+Marin Bulachi 331CB
+
+Pentru implementarea temei in serial am folosit HashMap in care voi pastra toate tabelele
+Cheia va fi numele tabelului, tabelul va fi salvat in felul urmator
+			pe prima linie va fi numele coloanei
+			pe al doilea rand tipul 
+			pe 2..n randuri variabilele corespunzatoare coloanei
+Am folosit semafoare pentru implementarea paradigmei Cititor si Scriitor.
+In care Update si insert sunt scriitori si select este cititor;
+Fiecare tabela va avea un semafor care se va bloca daca se face insert sau update ,iar pentru select se
+	va bloca semaforul si nu se va mai putea face insert sau update dar se va putea face select in paralel.
+	Pentru select am mai facut un semafor care va fi folosit pentru zone critice.
+
+
+insert 
+	semaphoreNameTable.aquaire()
+		insert
+	semaphoreNameTable.release() 
+	se va face sincron pentru aceeasi tabela si asincron pentru tabelele diferite
+
+update
+	semaphoreNameTable.aquaire()
+		caut liniile pentru care conditia este adevarata
+		schimb linia cu noile variabile
+	semaphoreNameTable.release()
+
+select
+	SemaphoreReadTableName.acquire()   //zona critica
+	 	numarCititoriTableName++;
+	 	if(numarCititoriTableName == 1){
+	 		semaphoreNameTable.aquaire()
+	 	}
+	SemaphoreReadTableName.relese() 
+
+	select in paralel cu executorService
+
+	SemaphoreReadTableName.acquire()  //zona critica
+	 	numarCititoriTableName--;
+	 	if(numarCititoriTableName == 0){
+	 		semaphoreNameTable.relese()
+	 	}
+	SemaphoreReadTableName.relese()  //sfarsit zona critica
+
+Nu am facut build.xml
+	am folosit javac *.java
+	java Main
+
+
+	testConsistency:
+		Local pe notebook(macbook pro 15 2015 16GB_RAM  4 thred-uri) se termina cu succes mereu in jur de 20 sec;
+		pe cluster nu se termina(nu am incercat pe coada doar pe fep.grid.pub.ro)
+
+
+	Pentru scalabilitate cu operatii pe tabele diferite am pus lock pe tabela care se lucreaza .Se poate lucra in paralel pe tabele diferite.
+
+	Pentu scalabilitate cu o singura  operatie (un singur select ).
+		Am implementat ExecutorService care va executa in paralel selectul.
+			Va adauga fiecare operatie. Dupa care va cere lista. 
+				Pentru a putea returna am folosit Callable();
+
+	Insertul scaleaza mereu;
+	Update si Select nu scaleaza bine mereu;
+
+Rezultate locale 
+i < 5_000_000;
+
+[[0, 1, 2, 20, 4, 5, 6, 7, 8, 9], [Ion0, Ion1, Ion2, Ion20, Ion4, Ion5, Ion6, Ion7, Ion8, Ion9], [0, 1, 2, 20, 4, 5, 6, 7, 8, 9], [false, true, false, false, false, true, false, true, false, true], [0, 1, 2, 20, 4, 5, 6, 7, 8, 9]]
+[[62], [0], [20], [6], [10], [0]]
+Select/Insert Consistency PASS
+Select/Update Consistency PASS
+Transactions Consistency PASS
+
+There are now 1 Threads
+Insert time 13522
+Update time 88
+[[-2019260044]]
+Select time 5715
+There are now 2 Threads
+[[-2019260044]]
+Insert time 9658
+Update time 83
+Select time 508
+There are now 4 Threads
+[[-2019260044]]
+Insert time 9246
+Update time 68
+Select time 534
+
+
+i < 5_000_000;
+
+[[0, 1, 2, 20, 4, 5, 6, 7, 8, 9], [Ion0, Ion1, Ion2, Ion20, Ion4, Ion5, Ion6, Ion7, Ion8, Ion9], [0, 1, 2, 20, 4, 5, 6, 7, 8, 9], [false, true, false, false, false, true, false, true, false, true], [0, 1, 2, 20, 4, 5, 6, 7, 8, 9]]
+[[62], [0], [20], [6], [10], [0]]
+Select/Insert Consistency PASS
+Select/Update Consistency PASS
+Transactions Consistency PASS
+There are now 1 Threads
+Insert time 17236
+Update time 95
+[[-2019260044]]
+Select time 4200
+There are now 2 Threads
+[[-2019260044]]
+Insert time 10798
+Update time 80
+Select time 428
+There are now 4 Threads
+[[-2019260044]]
+Insert time 9959
+Update time 154
+Select time 426
+
+
+
