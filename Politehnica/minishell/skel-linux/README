@@ -1,0 +1,60 @@
+Se verifica ce tip de comanda este si se apeleaza functia respectiva
+	Daca este comanda simpla se apeleaza parse_simple
+		Daca este o variabila carui i se asigneaza o valoare
+			folosesc functia putenv
+		Daca comanda este quit sau exit
+			returnez  SHELL_EXIT
+		Daca comanda este cd folosc functia chdir
+			daca trebuie sa redirectez outputul creez un fisier nou si il inchid
+		Daca este o alta comanda simpla
+			Creez un proces cu fork (ca in exemplu din laborator)
+			unde copilul va executa comanda cu execvp
+			parintele va astepta pana cand copilul executa
+	Daca este o comanda secventiala
+		execut prima comanda(cmd1)
+		apoi execut a 2 comanda
+	Daca este o comanda in paralel
+		creez un copil 
+		parintele va executa prima comanda
+		copilul va executa a doua comanda
+		parintele va astepta pana copilul termina de executat
+	Daca este o comanda de si(&&)
+		execut prima comanda
+		daca resultatul a fost true execut si comanda 2 
+		returnez valoarea
+	Daca este o comanda de sau(||)
+		execut prima comanda
+		daca resultatul a fost false execut si comanda 2
+		returnez valoarea
+	Daca am o comanda pip(|)
+		salvez STDIN_FILENO a lu parinte(deoarece el va trebui sa primeasca de pe pipe)
+		creez un pipe
+		creez un copil
+		copilul va executa comanda 1 si o va pune output-ul pe pipe
+		parintele va executa comanda 2 si va primi ca input ce a pus copilul pe pipe
+		refac STDIN_FILENO a lu parinte 
+
+
+functia redirect();
+	functia face redirectarile
+	daca trebuie sa facem redirectare de input
+		deschid fisierul cu modul O_RDONLY
+		fac redirectarea 
+	daca este out sau err
+		verific ce io_flags si setez modul
+		daca trebuie sa facem redirectare de output
+			deschid fisierul
+			fac redirectarea
+			inchid fisierul daca  nu am redirectare de eroare
+		daca trebuie sa facem redirectare de eroare
+			verific daca a fost facuta redirectare de output si este in acelasi fisier
+				fac redirectarea in fisierul deschis
+			daca out este diferit de err
+				inchid out
+				deschid fisierul nou
+				fac redirectarea
+
+
+
+
+
